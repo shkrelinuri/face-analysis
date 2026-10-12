@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Session } from '@supabase/supabase-js'
-import { ArrowDown, ArrowRight, Check, LockKeyhole, LoaderCircle, LogOut, Menu, Plus, ScanFace, ShieldCheck, X } from 'lucide-react'
+import { ArrowDown, ArrowRight, Check, LockKeyhole, LoaderCircle, LogOut, Menu, Moon, Plus, ScanFace, ShieldCheck, Sun, X } from 'lucide-react'
 import { supabase } from './lib/supabase'
 
 type Photo = { file: File; preview: string; width: number; height: number }
@@ -23,11 +23,27 @@ function App() {
   const [accountMessage, setAccountMessage] = useState('')
   const [authBusy, setAuthBusy] = useState(false)
   const [billingMessage, setBillingMessage] = useState(false)
+  const [darkMode, setDarkMode] = useState(() => {
+    try {
+      return window.localStorage.getItem('facescore-theme') === 'dark'
+    } catch {
+      return false
+    }
+  })
   const frontRef = useRef<HTMLInputElement>(null)
   const sideRef = useRef<HTMLInputElement>(null)
   const previewUrls = useRef(new Set<string>())
 
   useEffect(() => () => previewUrls.current.forEach((url) => URL.revokeObjectURL(url)), [])
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = darkMode ? 'dark' : 'light'
+    try {
+      window.localStorage.setItem('facescore-theme', darkMode ? 'dark' : 'light')
+    } catch {
+      return
+    }
+  }, [darkMode])
 
   useEffect(() => {
     if (!supabase) return
@@ -213,6 +229,8 @@ function App() {
     openAccount()
   }
 
+  const toggleTheme = () => setDarkMode((current) => !current)
+
   return (
     <main>
       <header className="topbar">
@@ -221,9 +239,13 @@ function App() {
           <a href="#upload">Analysis</a>
           <a href="#how-it-works">Method</a>
           <a href="#privacy">Privacy</a>
+          <button className="theme-toggle" onClick={toggleTheme} aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'} aria-pressed={darkMode} title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}>{darkMode ? <Sun size={16} /> : <Moon size={16} />}</button>
           <button className="nav-login" onClick={handleAccountAction}>{session ? <>{session.user.email} <LogOut size={14} /></> : <>Log in <ArrowRight size={14} /></>}</button>
         </nav>
-        <button className="mobile-menu" aria-label={session ? 'Sign out' : 'Open account'} onClick={handleAccountAction}><Menu size={21} /></button>
+        <div className="mobile-actions">
+          <button className="theme-toggle" onClick={toggleTheme} aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'} aria-pressed={darkMode} title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}>{darkMode ? <Sun size={16} /> : <Moon size={16} />}</button>
+          <button className="mobile-menu" aria-label={session ? 'Sign out' : 'Open account'} onClick={handleAccountAction}><Menu size={21} /></button>
+        </div>
       </header>
 
       <section className="hero" id="top">
