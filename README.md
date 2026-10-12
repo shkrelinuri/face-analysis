@@ -1,6 +1,6 @@
-# DoYouMog
+# FaceScore
 
-DoYouMog is a web-first portrait-analysis app built with React, Vite, and Capacitor. Users can create an account, upload front and profile photos, consent to processing, and request a brief AI-generated report. Scores are subjective model opinions, not objective measures of attractiveness or personal worth.
+FaceScore is a web-first portrait-analysis app built with React, Vite, and Capacitor. Users can create an account, upload front and profile photos, consent to processing, and request a brief AI-generated report. Scores are subjective model opinions, not objective measures of attractiveness or personal worth.
 
 ## Run locally
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Session } from '@supabase/supabase-js'
-import { ArrowDown, ArrowRight, Check, LockKeyhole, LoaderCircle, LogOut, Menu, Plus, ShieldCheck, X } from 'lucide-react'
+import { ArrowDown, ArrowRight, Check, LockKeyhole, LoaderCircle, LogOut, Menu, Plus, ScanFace, ShieldCheck, X } from 'lucide-react'
 import { supabase } from './lib/supabase'
 
 type Photo = { file: File; preview: string; width: number; height: number }
@@ -216,7 +216,7 @@ function App() {
   return (
     <main>
       <header className="topbar">
-        <a className="wordmark" href="#top" aria-label="DoYouMog home">DoYouMog<span>.</span></a>
+        <a className="wordmark" href="#top" aria-label="FaceScore home"><ScanFace size={23} strokeWidth={1.8} />FaceScore</a>
         <nav className="desktop-nav" aria-label="Main navigation">
           <a href="#upload">Analysis</a>
           <a href="#how-it-works">Method</a>
@@ -228,11 +228,11 @@ function App() {
 
       <section className="hero" id="top">
         <div className="hero-copy">
-          <div className="eyebrow"><span className="eyebrow-dot" /> DOYOUMOG / PORTRAIT TOOLS</div>
-          <h1>Portrait<br />analysis</h1>
-          <p className="hero-description">Compare two angles across three visual dimensions. Scores are subjective model estimates, not objective measures.</p>
+          <div className="eyebrow"><span className="eyebrow-dot" /> FACESCORE / PORTRAIT TOOLS</div>
+          <h1>Face<span className="hero-highlight">Score</span></h1>
+          <p className="hero-description">A considered portrait analysis across three visual dimensions. Clear observations, useful context, and no claims of objectivity.</p>
           <div className="hero-actions">
-            <a className="button button-dark" href="#upload">Add portrait photos <ArrowDown size={15} /></a>
+            <a className="button button-dark" href="#upload">Start your analysis <ArrowDown size={15} /></a>
             <span className="hero-note"><ShieldCheck size={15} /> Consent required</span>
           </div>
           <div className="hero-footnote">Images are sent for analysis only after you request a report.</div>
@@ -262,7 +262,7 @@ function App() {
         </div>
         <div className="consent-wrap">
           <label className="consent-row"><input type="checkbox" checked={consentAccepted} onChange={(event) => setConsentAccepted(event.target.checked)} /><span>I am 18 or older and consent to sending these photos to OpenAI for analysis. Photos are not saved by this app.</span></label>
-          <div className="upload-footer"><span className="privacy-note"><LockKeyhole size={14} /> Images are processed only when you request analysis</span><button className="button button-outline" onClick={generateReport} disabled={analysisBusy}>{analysisBusy ? <>Analyzing <LoaderCircle className="spin" size={15} /></> : <>See sample report <ArrowRight size={15} /></>}</button></div>
+          <div className="upload-footer"><span className="privacy-note"><LockKeyhole size={14} /> Images are processed only when you request analysis</span><button className="button button-outline" onClick={generateReport} disabled={analysisBusy}>{analysisBusy ? <>Analyzing <LoaderCircle className="spin" size={15} /></> : <>Generate my report <ArrowRight size={15} /></>}</button></div>
           {analysisMessage && <p className="integration-note analysis-message" role="status">{analysisMessage}</p>}
         </div>
       </section>
@@ -280,7 +280,7 @@ function App() {
       {report && <section className="sample-section" id="report">
         <div className="sample-heading"><div><div className="eyebrow"><span className="eyebrow-dot" /> YOUR AI REPORT</div><h2>A useful read,<br /><em>not just a rating.</em></h2></div></div>
         <div className="report-preview">
-          <div className="report-topline"><span>DOYOUMOG / PORTRAIT ANALYSIS</span><span>AI-GENERATED OPINION</span></div>
+          <div className="report-topline"><span>FACESCORE / PORTRAIT ANALYSIS</span><span>AI-GENERATED OPINION</span></div>
           <div className="report-main">
             <div className="report-score"><div className="score-ring"><span>{report.overallScore.toFixed(1)}</span><small>/ 10</small></div><span className="score-caption">OVERALL IMPRESSION</span><span className="score-sample">SUBJECTIVE MODEL ESTIMATE</span></div>
             <div className="report-details"><div className="report-title"><span>THE OVERVIEW</span><h3>Your portrait, in context.</h3><p>{report.summary}</p></div>
@@ -294,13 +294,13 @@ function App() {
 
       <section className="privacy-section" id="privacy"><div className="privacy-mark"><ShieldCheck size={23} /></div><div><div className="eyebrow"><span className="eyebrow-dot" /> 03 / DATA HANDLING</div><h2>Image processing<br />and privacy</h2></div><p>Photos leave your device only when you request analysis and consent. They are processed in memory by this app and sent to OpenAI; review OpenAI's current privacy and retention terms.</p><button className="text-link" onClick={() => openAccount()}>Account access <ArrowRight size={14} /></button></section>
 
-      <footer className="footer"><a className="wordmark" href="#top">DoYouMog<span>.</span></a><span>PORTRAIT ANALYSIS / VISION MODEL</span><span>© 2026 DOYOUMOG</span><a href="#privacy">Data handling</a></footer>
+      <footer className="footer"><a className="wordmark" href="#top"><ScanFace size={21} strokeWidth={1.8} />FaceScore</a><span>PORTRAIT ANALYSIS / VISION MODEL</span><span>© 2026 FACESCORE</span><a href="#privacy">Data handling</a></footer>
 
       {modal === 'account' && (
         <div className="modal-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setModal(null) }}>
           <section className="modal" role="dialog" aria-modal="true" aria-labelledby="account-title">
             <button className="modal-close" onClick={() => setModal(null)} aria-label="Close"><X size={19} /></button>
-            <div className="eyebrow"><span className="eyebrow-dot" /> DOYOUMOG ACCOUNT</div>
+            <div className="eyebrow"><span className="eyebrow-dot" /> FACESCORE ACCOUNT</div>
             <h2 id="account-title">
               {awaitingEmailCode ? <>Verify your<br /><em>email.</em></> : accountMode === 'signup' ? <>Start your<br /><em>account.</em></> : <>Good to have<br /><em>you here.</em></>}
             </h2>
@@ -326,7 +326,7 @@ function App() {
             <div className="account-actions">
               {awaitingEmailCode && <button type="button" className="account-switch" onClick={resendSignupCode} disabled={authBusy}>{authBusy ? 'Sending request...' : 'Resend code'}</button>}
               <button type="button" className="account-switch" onClick={() => { setAccountMessage(''); setEmailCode(''); if (awaitingEmailCode) { setAwaitingEmailCode(false); setAccountMode('login') } else setAccountMode(accountMode === 'login' ? 'signup' : 'login') }}>
-                {awaitingEmailCode ? 'Back to log in' : accountMode === 'login' ? 'New to DoYouMog? Create an account' : 'Already have an account? Log in'}
+                {awaitingEmailCode ? 'Back to log in' : accountMode === 'login' ? 'New to FaceScore? Create an account' : 'Already have an account? Log in'}
               </button>
             </div>
             {accountMessage && <p className="integration-note" role="status">{accountMessage}</p>}
