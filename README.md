@@ -1,6 +1,6 @@
 # FaceScore
 
-FaceScore is a web-first portrait-analysis app built with React, Vite, and Capacitor. Users can create an account, upload front and profile photos, consent to processing, and request a brief AI-generated report. Scores are subjective model opinions, not objective measures of attractiveness or personal worth.
+FaceScore is a portrait-analysis app built with React, Vite, and Capacitor. A user can create an account, choose photos, consent to processing, and request a short AI-generated report. The scores are subjective model output, not an objective measure of attractiveness or personal worth.
 
 ## Run locally
 
@@ -11,7 +11,7 @@ npm run dev
 
 Copy `.env.example` to `.env` and configure the values below. The Vite app runs at `http://localhost:5173`; the analysis API runs at `http://localhost:8787`.
 
-## Provider setup
+## Connect the services
 
 - Create a Supabase project. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` from the project API settings. Legacy anon keys are also supported. Enable email/password auth and configure allowed redirect URLs for the local site and deployed site.
 - Set `OPENAI_API_KEY` on the server only. The default `OPENAI_MODEL` is `gpt-4o-mini`; confirm vision and structured-output access in the OpenAI project before launch. The key is never sent to the browser.
@@ -24,7 +24,7 @@ Photos are held in memory by the API during analysis and are not written to app 
 
 The Android project is included. Run `npm run mobile:sync` after web changes. Android builds require Android Studio and the Android SDK. Add/build the iOS project on macOS with Xcode. Store publication requires developer accounts, privacy disclosures, signing, and review approval.
 
-## Before launch
+## Before using this with real users
 
 - Independently evaluate model quality and demographic bias with representative, consented participants. This is a general vision model, not a scientifically validated universal attractiveness measure.
 - Complete privacy/legal review for face-photo processing in launch regions and publish accurate retention, deletion, and provider disclosures.
